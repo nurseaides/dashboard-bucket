@@ -16,6 +16,7 @@ var TencentCOSClent *cos.Client
 func InitBucket(bucketURL string, secretID string, secretKey string) {
 	u, _ := url.Parse(bucketURL)
 	b := &cos.BaseURL{BucketURL: u}
+
 	TencentCOSClent = cos.NewClient(b, &http.Client{
 		Transport: &cos.AuthorizationTransport{
 			SecretID:  secretID,
@@ -36,14 +37,14 @@ func PutObject(path string, r io.Reader) error {
 // ListObject 对象列表
 func ListObject() {
 	opt := &cos.BucketGetOptions{
-		Prefix:  "/",
+		Prefix:  "",
 		MaxKeys: 3,
 	}
 	v, _, err := TencentCOSClent.Bucket.Get(context.Background(), opt)
 	if err != nil {
+		fmt.Println("ere:", err)
 		panic(err)
 	}
-
 	for _, c := range v.Contents {
 		fmt.Printf("%s, %d\n", c.Key, c.Size)
 	}

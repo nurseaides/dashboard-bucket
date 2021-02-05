@@ -26,10 +26,9 @@ func init() {
 
 func run() {
 	//初始化sdk
-	if config.Type == "tencert-cos" {
+	if config.Type == "tencent-cos" {
 		component.InitBucket(config.BucketUrl, config.SecretID, config.SecretKey)
 	}
-
 	//路由设置
 	bindActions()
 }
