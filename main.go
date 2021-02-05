@@ -27,7 +27,7 @@ func init() {
 func run() {
 	//初始化sdk
 	if config.Type == "tencert-cos" {
-		component.InitBucket(config.MiniprogramAppID, config.MiniprogramAppSecret)
+		component.InitBucket(config.BucketUrl, config.SecretID, config.SecretKey)
 	}
 
 	//路由设置
