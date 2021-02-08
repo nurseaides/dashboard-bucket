@@ -10,14 +10,13 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 )
 
-var TencentCOSClent *cos.Client
+var tencentCOSClent *cos.Client
 
-// InitBucket 初始化微信配置
-func InitBucket(bucketURL string, secretID string, secretKey string) {
+// initTencentCOS 初始化微信配置
+func initTencentCOS(bucketURL string, secretID string, secretKey string) {
 	u, _ := url.Parse(bucketURL)
 	b := &cos.BaseURL{BucketURL: u}
-
-	TencentCOSClent = cos.NewClient(b, &http.Client{
+	tencentCOSClent = cos.NewClient(b, &http.Client{
 		Transport: &cos.AuthorizationTransport{
 			SecretID:  secretID,
 			SecretKey: secretKey,
@@ -25,22 +24,23 @@ func InitBucket(bucketURL string, secretID string, secretKey string) {
 	})
 }
 
-// PutObject  上传文件
-func PutObject(path string, r io.Reader) error {
-	_, err := TencentCOSClent.Object.Put(context.Background(), path, r, nil)
+// tencentCOSPutObject  上传文件
+func tencentCOSPutObject(path string, r io.Reader) error {
+	_, err := tencentCOSClent.Object.Put(context.Background(), path, r, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
 	return err
 }
 
-// ListObject 对象列表
-func ListObject() {
+// tencentCOSListObject 对象列表
+func tencentCOSListObject() {
+
 	opt := &cos.BucketGetOptions{
 		Prefix:  "",
 		MaxKeys: 3,
 	}
-	v, _, err := TencentCOSClent.Bucket.Get(context.Background(), opt)
+	v, _, err := tencentCOSClent.Bucket.Get(context.Background(), opt)
 	if err != nil {
 		fmt.Println("ere:", err)
 		panic(err)

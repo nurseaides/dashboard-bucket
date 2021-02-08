@@ -5,14 +5,11 @@ import (
 	. "github.com/nurseaides/dashboard-engine"
 )
 
-type ModuleConfig struct {
-	Type      string `json:"bucket_type"`
-	BucketUrl string `json:"bucket_url"`
-	SecretID  string `json:"secret_id"`
-	SecretKey string `json:"secret_key"`
+type moduleConfig struct {
+	Cos component.BucketConfig `json:"cos"`
 }
 
-var config = new(ModuleConfig)
+var config = new(moduleConfig)
 
 func init() {
 	plugin := &PluginConfig{
@@ -26,9 +23,8 @@ func init() {
 
 func run() {
 	//初始化sdk
-	if config.Type == "tencent-cos" {
-		component.InitBucket(config.BucketUrl, config.SecretID, config.SecretKey)
-	}
+	component.InitBucket(config.Cos)
+
 	//路由设置
 	bindActions()
 }
