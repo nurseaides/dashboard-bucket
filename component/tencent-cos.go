@@ -8,6 +8,7 @@ import (
 	"net/url"
 
 	"github.com/tencentyun/cos-go-sdk-v5"
+	sts "github.com/tencentyun/qcloud-cos-sts-sdk/go"
 )
 
 var tencentCOSClent *cos.Client
@@ -48,4 +49,34 @@ func tencentCOSListObject() {
 	for _, c := range v.Contents {
 		fmt.Printf("%s, %d\n", c.Key, c.Size)
 	}
+}
+
+// TencentCOSGetCredential 获取腾迅云对象存储临时密钥
+func TencentCOSGetCredential() (*sts.CredentialResult, error) {
+	c := sts.NewClient(
+		config.SecretID,
+		config.SecretKey,
+		nil,
+	)
+	opt := &sts.CredentialOptions{
+		DurationSeconds: int64(300),
+		Region:          "ap-nanjing",
+		Policy: &sts.CredentialPolicy{
+			Statement: []sts.CredentialPolicyStatement{
+				{
+					Action: []string{
+						"name/cos:PostObject",
+						"name/cos:PutObject",
+						"name/cos:GetObject",
+					},
+					Effect: "allow",
+					Resource: []string{
+						//这里改成允许的路径前缀，可以根据自己网站的用户登录态判断允许上传的具体路径，例子： a.jpg 或者 a/* 或者 * (使用通配符*存在重大安全风险, 请谨慎评估使用)
+						"*",
+					},
+				},
+			},
+		},
+	}
+	return c.GetCredential(opt)
 }

@@ -2,6 +2,7 @@ package bucket
 
 import (
 	"github.com/nurseaides/dashboard-bucket/component"
+	"github.com/nurseaides/dashboard-bucket/controllers"
 	. "github.com/nurseaides/dashboard-engine"
 )
 
@@ -30,4 +31,5 @@ func run() {
 }
 
 func bindActions() {
+	GinR.GET("/bucket/tmp-credent-for-tencent-cos", controllers.TmpCredentForTencentCos)
 }
