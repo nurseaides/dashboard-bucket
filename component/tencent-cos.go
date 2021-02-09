@@ -59,7 +59,7 @@ func TencentCOSGetCredential() (*sts.CredentialResult, error) {
 		nil,
 	)
 	opt := &sts.CredentialOptions{
-		DurationSeconds: int64(300),
+		DurationSeconds: int64(3000),
 		Region:          "ap-nanjing",
 		Policy: &sts.CredentialPolicy{
 			Statement: []sts.CredentialPolicyStatement{
