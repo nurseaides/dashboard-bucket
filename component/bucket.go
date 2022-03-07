@@ -1,6 +1,7 @@
 package component
 
 import (
+	"fmt"
 	"io"
 )
 
@@ -20,11 +21,11 @@ func InitBucket(conf BucketConfig) {
 }
 
 // PutObject  上传文件
-func PutObject(path string, r io.Reader) (err error) {
+func PutObject(path string, r io.Reader) (uri string, err error) {
 	if config.Type == "tencent-cos" {
-		return tencentCOSPutObject(path, r)
+		return fmt.Sprintf("%s%s", config.BucketUrl, path), tencentCOSPutObject(path, r)
 	}
-	return err
+	return uri, err
 }
 
 // ListObject 对象列表
