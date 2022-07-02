@@ -69,6 +69,8 @@ func TencentCOSGetCredential() (*sts.CredentialResult, error) {
 						"name/cos:PutObject",
 						"name/cos:GetObject",
 						"name/cos:GetBucket",
+						"name/cos:DeleteObject",
+						"name/cos:DeleteMultipleObjects",
 					},
 					Effect: "allow",
 					Resource: []string{
